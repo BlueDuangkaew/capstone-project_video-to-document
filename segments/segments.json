@@ -1,0 +1,10 @@
+[
+  { "start": 0, "end": 60, "name": "vid1.mp4" },
+  { "start": 60, "end": 120, "name": "vid2.mp4" },
+  { "start": 120, "end": 180, "name": "vid3.mp4" },
+  { "start": 180, "end": 240, "name": "vid4.mp4" },
+  { "start": 240, "end": 300, "name": "vid5.mp4" },
+  { "start": 300, "end": 360, "name": "vid6.mp4" },
+  { "start": 360, "end": 420, "name": "vid7.mp4" },
+  { "start": 420, "end": 480, "name": "vid8.mp4" }
+]

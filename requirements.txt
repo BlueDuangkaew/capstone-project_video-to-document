@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-multipart
+ffmpeg-python
+opencv-python
+openai-whisper
+llama-cpp-python
+pydantic
+jinja2
+loguru
+python-dotenv
