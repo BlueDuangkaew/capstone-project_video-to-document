@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing...</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container fade-in">
+    <div class="processing-header">
+        <div class="spinner-wrapper">
+            <div class="spinner"></div>
+            <svg class="check-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        <h2 class="gradient-text">Processing Your Video</h2>
+        <p id="phase" class="phase-text">Starting...</p>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress">
+            <div id="bar" class="progress-bar"></div>
+            <div class="progress-shimmer"></div>
+        </div>
+        <p class="progress-percentage" id="percentage">0%</p>
+    </div>
+
+    <div class="info-cards">
+        <div class="info-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <p>This may take a few minutes</p>
+        </div>
+        <div class="info-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 11l3 3L22 4"></path>
+                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+            </svg>
+            <p>Analyzing frames & audio</p>
+        </div>
+    </div>
+</div>
+
+<div class="background-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+
+<script>
+const jobId = "{{ job_id }}";
+
+function pollStatus() {
+    fetch(`/status/${jobId}`)
+        .then(r => r.json())
+        .then(data => {
+            const phaseElement = document.getElementById("phase");
+            const barElement = document.getElementById("bar");
+            const percentageElement = document.getElementById("percentage");
+            
+            phaseElement.textContent = data.phase;
+            barElement.style.width = data.progress + "%";
+            percentageElement.textContent = Math.round(data.progress) + "%";
+
+            if (data.status === "completed") {
+                document.querySelector('.spinner').classList.add('hidden');
+                document.querySelector('.check-icon').classList.remove('hidden');
+                setTimeout(() => {
+                    window.location.href = `/result/${jobId}`;
+                }, 800);
+            }
+        });
+}
+
+setInterval(pollStatus, 1500);
+pollStatus();
+</script>
+
+</body>
+</html>

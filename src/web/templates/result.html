@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Documentation Ready</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container fade-in">
+    <div class="success-header">
+        <div class="success-icon-wrapper">
+            <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        </div>
+        <h1 class="gradient-text">Documentation Ready!</h1>
+        <p class="subtitle">Your video has been successfully processed</p>
+    </div>
+
+    <div class="preview-section">
+        <h3>Preview</h3>
+        <div class="preview">
+            {{ preview_html|safe }}
+        </div>
+    </div>
+
+    <div class="download-section">
+        <h3>Download Your Documentation</h3>
+        <div class="download-grid">
+            <a class="download-card" href="/download/{{ job_id }}/documentation.md">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                <div class="download-info">
+                    <span class="format-name">Markdown</span>
+                    <span class="format-desc">Plain text format</span>
+                </div>
+            </a>
+            
+            <a class="download-card" href="/download/{{ job_id }}/documentation.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                <div class="download-info">
+                    <span class="format-name">HTML</span>
+                    <span class="format-desc">Web format</span>
+                </div>
+            </a>
+            
+            <a class="download-card" href="/download/{{ job_id }}/documentation.pdf">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                <div class="download-info">
+                    <span class="format-name">PDF</span>
+                    <span class="format-desc">Portable document</span>
+                </div>
+            </a>
+            
+            <a class="download-card" href="/download/{{ job_id }}/documentation.docx">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                <div class="download-info">
+                    <span class="format-name">Word</span>
+                    <span class="format-desc">DOCX format</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <a href="/" class="btn btn-secondary">
+        <svg class="btn-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"></path>
+        </svg>
+        <span class="btn-text">Process Another Video</span>
+    </a>
+</div>
+
+<div class="background-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+
+</body>
+</html>
