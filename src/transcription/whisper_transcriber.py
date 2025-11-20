@@ -3,9 +3,15 @@ import json
 import tempfile
 import ffmpeg
 import whisper
+import datetime
+import copy
 from pathlib import Path
 from typing import List, Dict, Any
 from tqdm import tqdm
+
+def format_ts(seconds: float) -> str:
+    """Convert seconds to HH:MM:SS format."""
+    return str(datetime.timedelta(seconds=round(seconds)))
 
 class WhisperTranscriber:
     def __init__(self, model_name: str = "small", output_dir: str = "data/transcripts"):
@@ -14,25 +20,25 @@ class WhisperTranscriber:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def _extract_audio(self, video_path: str, out_audio_path: str):
-        """
-        Extracts audio from video to a WAV/MP3 file using ffmpeg.
-        """
+    def _extract_audio(self, video_path: str, out_audio_path: str) -> str:
+        """Extract audio from video to WAV using ffmpeg (mono, 16kHz)."""
         (
             ffmpeg
             .input(video_path)
-            .output(out_audio_path, ac=1, ar="16000")  # mono, 16kHz
+            .output(out_audio_path, ac=1, ar="16000")
             .overwrite_output()
             .run(quiet=True)
         )
         return out_audio_path
 
-    def transcribe_segment(self, segment_video_path: str, segment_id: str = None,
-                           language: str = None, word_timestamps: bool = False) -> Dict[str, Any]:
-        """
-        Transcribe a single video segment and return a JSON-like dict with timestamps.
-        Uses whisper.transcribe which provides word-level timestamps if using newer whisper versions.
-        """
+    def transcribe_segment(
+        self,
+        segment_video_path: str,
+        segment_id: str = None,
+        language: str = None,
+        word_timestamps: bool = False
+    ) -> Dict[str, Any]:
+        """Transcribe a single video segment and return structured JSON with timestamps."""
         if segment_id is None:
             segment_id = Path(segment_video_path).stem
 
@@ -40,20 +46,19 @@ class WhisperTranscriber:
             audio_path = os.path.join(td, f"{segment_id}.wav")
             self._extract_audio(segment_video_path, audio_path)
 
-            # use Whisper's transcribe interface
-            # set word_timestamps=True if model version supports it
-            options = {"language": language} if language else {}
-            # newer whisper (openai-whisper) supports task and word_timestamps flags
+            options: Dict[str, Any] = {}
+            if language:
+                options["language"] = language
+            if word_timestamps:
+                options["word_timestamps"] = True
+
             try:
                 result = self.model.transcribe(audio_path, **options)
             except TypeError:
-                # fallback for older API signatures
                 result = self.model.transcribe(audio_path)
 
-        # Build structured transcript entries
-        # Whisper result typically contains 'segments' with start/end/text
         segments = result.get("segments", [])
-        transcript = {
+        transcript: Dict[str, Any] = {
             "segment_id": segment_id,
             "video_path": segment_video_path,
             "model": self.model_name,
@@ -64,18 +69,16 @@ class WhisperTranscriber:
         }
 
         for seg in segments:
-            transcript_entry = {
-                "start": float(seg.get("start", 0.0)),
-                "end": float(seg.get("end", 0.0)),
+            entry: Dict[str, Any] = {
+                "start": format_ts(seg.get("start", 0.0)),
+                "end": format_ts(seg.get("end", 0.0)),
                 "text": seg.get("text", "").strip(),
-                "confidence": seg.get("avg_logprob", None)  # not always present
+                "confidence": seg.get("avg_logprob", None)
             }
-            # If word-level timestamps exist, attach them
             if "words" in seg:
-                transcript_entry["words"] = seg["words"]
-            transcript["segments"].append(transcript_entry)
+                entry["words"] = seg["words"]
+            transcript["segments"].append(entry)
 
-        # Save JSON to output_dir
         out_file = self.output_dir / f"{segment_id}.json"
         with open(out_file, "w", encoding="utf-8") as fh:
             json.dump(transcript, fh, ensure_ascii=False, indent=2)
@@ -83,7 +86,7 @@ class WhisperTranscriber:
         return transcript
 
     def transcribe_batch(self, segment_paths: List[str], language: str = None) -> List[Dict[str, Any]]:
-        results = []
+        results: List[Dict[str, Any]] = []
         for p in tqdm(segment_paths, desc="Transcribing segments"):
             sid = Path(p).stem
             res = self.transcribe_segment(p, segment_id=sid, language=language)
