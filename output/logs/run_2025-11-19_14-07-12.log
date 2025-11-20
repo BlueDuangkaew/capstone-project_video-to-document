@@ -1,6 +1,0 @@
-2025-11-19 14:07:12 | INFO | Logger initialized.
-2025-11-19 14:07:12 | INFO | === Video Trimming Run Started ===
-2025-11-19 14:07:12 | INFO | Input video: /home/booblue/capstone-project/input/figma_tutorial.mp4
-2025-11-19 14:07:12 | INFO | Segments file: /home/booblue/capstone-project/segments/segments.json
-2025-11-19 14:07:12 | INFO | Starting batch trim: 8 segments
-2025-11-19 14:07:12 | INFO | Trimming segment 0 -> 60 → /home/booblue/capstone-project/output/trimmed/vid1.mp4

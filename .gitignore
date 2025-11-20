@@ -1,4 +1,8 @@
 .env
 venv/
+test_segments/
+output/
 
+*.mp4:Zone.Identifier
 input/*.mp4
+tests/*.mp4
