@@ -2,7 +2,7 @@
 venv/
 test_segments/
 output/
+data/
 
 *.mp4:Zone.Identifier
-input/*.mp4
 tests/*.mp4
