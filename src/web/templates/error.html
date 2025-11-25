@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing Error</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container fade-in">
+    <div class="error-header">
+        <div class="error-icon-wrapper">
+            <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12" y2="16"></line>
+            </svg>
+        </div>
+        <h1 class="gradient-text">Something went wrong</h1>
+        <p class="subtitle">We encountered an error while processing your video.</p>
+    </div>
+
+    <div class="preview-section">
+        <h3>What happened</h3>
+        <div class="error-details">
+            <p><strong>Job:</strong> {{ job_id }}</p>
+            <p><strong>Phase:</strong> {{ status.phase }}</p>
+            {% if status.error_message %}
+            <div class="error-message">
+                <h4>Error</h4>
+                <pre>{{ status.error_message }}</pre>
+            </div>
+            {% endif %}
+            {% if status.error_trace and debug %}
+            <div class="error-trace">
+                <h4>Trace</h4>
+                <pre style="max-height:300px;overflow:auto">{{ status.error_trace }}</pre>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="download-section">
+        <a href="/" class="btn btn-secondary">
+            <span class="btn-text">Upload another video</span>
+        </a>
+    </div>
+</div>
+
+<div class="background-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+</div>
+
+</body>
+</html>

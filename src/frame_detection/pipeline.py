@@ -4,6 +4,12 @@ from src.frame_detection.keyframe_selector import KeyframeExtractor
 from src.frame_detection.utils import ensure_dir, frame_save_path
 
 def extract_frames(video_path: str, output_dir: str):
+    # Sanity checks to avoid passing None into OpenCV/ffmpeg
+    if video_path is None:
+        raise FileNotFoundError("video_path is None")
+    if not os.path.exists(video_path):
+        raise FileNotFoundError(f"video file not found: {video_path}")
+
     ensure_dir(output_dir)
 
     detector = SceneDetector(threshold=0.35)

@@ -71,6 +71,12 @@ function pollStatus() {
                 setTimeout(() => {
                     window.location.href = `/result/${jobId}`;
                 }, 800);
+            } else if (data.status === "error") {
+                document.querySelector('.spinner').classList.add('hidden');
+                // show error and redirect to error page
+                setTimeout(() => {
+                    window.location.href = `/error/${jobId}`;
+                }, 800);
             }
         });
 }

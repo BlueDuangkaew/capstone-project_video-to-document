@@ -24,9 +24,21 @@ Key constraints:
 - Event-based clip detector
   - Instead of picking single frames, this module finds short 2–4s clips where actions or transitions occur.
   - Techniques: OpenCV frame differencing, SSIM, histogram changes, motion vectors, cursor detection, UI transitions.
+  - Implemented: a conservative event-based clip detector (src/frame_detection/clip_detector.py) that
+    chooses short 2–4s clips for timeline items; it uses transcript timestamps where available and
+    optionally refines clip selection by scanning for high-motion peaks using OpenCV when available.
+    The detector keeps compute cost low by sampling frames at a modest rate and falls back to a
+    deterministic clip selection when analysis is not possible.
+    - OCR enhancement: the detector can optionally use OCR (pytesseract) to detect on-screen
+      text or UI hints and bias clip selection toward timestamps with readable text. OCR is an
+      additional strong signal — useful for software tutorials where steps are displayed on-screen.
 
 - Transcription & text pipeline
   - ASR (Whisper or similar) transcribes audio and segments into lines or steps.
+  - The NLP pipeline now first classifies spoken segments and filters out greetings,
+    closings (e.g., "hello", "thanks", "goodbye") and other non-instructional content
+    before building the final document. This keeps summaries and step extraction focused
+    on the main instructional content and reduces noise in generated documentation.
   - Optional human correction or verification step.
 
 - Clip–text alignment
@@ -34,10 +46,13 @@ Key constraints:
   - Weighting signals: visual similarity, OCR hints, motion dynamics, timestamp alignment, embedding scores.
 
 - GIF generation
-  - For each chosen clip, produce a small, smooth GIF with gifski.
+  - For each chosen clip, produce a small, smooth GIF with gifski (or fallback to a no-op / placeholder
+    when gifski is not installed). The detection pipeline now hands better clip ranges to GIF creation
+    which improves how GIFs map to the spoken instructions. The detector can combine motion + OCR
+    signals to select clips that both contain clear motion and meaningful on-screen text.
   - Steps:
     1. Extract a short MP4 clip (2–4s).
-    2. Convert frames to PNG or pass directly to gifski.
+    2. Use ffmpeg to extract temporary frames (into a transient /tmp dir) or pass directly to gifski; we do not persist per-job frame files by default.
     3. Optimize gifski options for small sizes and smooth motion.
   - Aim for ~100–300 KB per GIF using gifski tuning.
 
@@ -77,3 +92,4 @@ Key constraints:
 - Implement validation & trimming helpers.
 - Add tests to enforce duration and format validation.
 - Implement event-based clip detection & gifski generation modules.
+  - Cleanup: removed unused/empty modules (for example `src/utils/file_manager.py`) to keep the codebase tidy.

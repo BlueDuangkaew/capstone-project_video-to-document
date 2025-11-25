@@ -1,0 +1,268 @@
+{
+  "segment_id": "4129d992-f77d-4a50-bd2b-9ea106af9099",
+  "video_path": "/home/booblue/capstone-project/uploads/4129d992-f77d-4a50-bd2b-9ea106af9099_sample_video.mp4",
+  "model": "small",
+  "duration": null,
+  "language": "en",
+  "raw_text": "Alright, so I'm gonna try something new. I'm gonna try to be like really fast, but still tell you everything that I think you need to know so a class in programming can be described as like an object in the real world and classes in programming are also often referred to as objects and So object oriented programming basically just means utilizing classes in your code So if you want to write good code, then you really need to know how to use classes So let me break this down for you Here you see a class written in Python and that looks simple enough, right? But at this point it doesn't really do anything for us So let's make this a little bit more useful and let's add some attributes to this class and that just means let's add some stuff That a person would have like metrics and values Anything that describes a person really so what could this be what kind of features does a person have? well, they have an age right and a weight a height and Lastly, they have a first name and a last name So now we've added attributes to our person class and we can now start using this class in other parts of our code We can create what is called an instance of our person class We can make a new person that will be our user let's say and here comes a really cool part So now we're actually able to access the attributes of person and set them for our user So for instance, what would the first name of our user person be? Well, let's name them John. How old would John be? Well, I'm 25 so I'm just gonna go with 25 What were the weight of John be? I'm gonna go with 80 for now and this could of course represent like any metric you want So you could represent grams pounds or kilos doesn't really matter So now then when we use our user we will be able to access all the different attributes of our person class and like first name last name age height weight, etc and Whatever else we might add to the person class in the future So for instance to test this we could try printing the user's catchphrase to the terminal and how we do that It's just type in print and in parentheses user dot catchphrase and that will then print whatever We have set the catchphrase for our user to be we can also add methods in our class and access them the same way that we would with attributes and The class might then end up looking something like this So what we can do now is we can get our user to walk or run So user dot walk would then print walking to the terminal you can create a class for anything that you can imagine So for instance, let's say a bottle of water what attributes would it have? Well, it would have volume like how much could it contain it would probably have what type of bottle it is is it wine soda milk? Whatever and what methods would it have so what can you do with a bottle? Well, you can pour it you can fill it You can probably recycle it creating classes is something that may take some time to get used to it took me some time to get used to it and I would recommend just practicing by creating classes for things that you see and have around you and This will teach you how to abstract real-world things and represent them in code Which is pretty much what programming is all about and if you learn to do this Well, then you pretty much won like half the battle when it comes to learning to code Okay, I hope I did that well I tried to be really fast and I hope I explained it well and that you got something out of this and I hope I'll see you in the next one",
+  "segments": [
+    {
+      "start": "0:00:00",
+      "end": "0:00:06",
+      "text": "Alright, so I'm gonna try something new. I'm gonna try to be like really fast, but still tell you everything that I think you need to know",
+      "confidence": -0.17444230977771352
+    },
+    {
+      "start": "0:00:06",
+      "end": "0:00:11",
+      "text": "so a class in programming can be described as like an object in the real world and",
+      "confidence": -0.17444230977771352
+    },
+    {
+      "start": "0:00:12",
+      "end": "0:00:16",
+      "text": "classes in programming are also often referred to as objects and",
+      "confidence": -0.17444230977771352
+    },
+    {
+      "start": "0:00:16",
+      "end": "0:00:21",
+      "text": "So object oriented programming basically just means utilizing classes in your code",
+      "confidence": -0.17444230977771352
+    },
+    {
+      "start": "0:00:21",
+      "end": "0:00:26",
+      "text": "So if you want to write good code, then you really need to know how to use classes",
+      "confidence": -0.17444230977771352
+    },
+    {
+      "start": "0:00:26",
+      "end": "0:00:28",
+      "text": "So let me break this down for you",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:28",
+      "end": "0:00:32",
+      "text": "Here you see a class written in Python and that looks simple enough, right?",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:32",
+      "end": "0:00:35",
+      "text": "But at this point it doesn't really do anything for us",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:35",
+      "end": "0:00:43",
+      "text": "So let's make this a little bit more useful and let's add some attributes to this class and that just means let's add some stuff",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:43",
+      "end": "0:00:46",
+      "text": "That a person would have like metrics and values",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:47",
+      "end": "0:00:52",
+      "text": "Anything that describes a person really so what could this be what kind of features does a person have?",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:52",
+      "end": "0:00:54",
+      "text": "well, they have an age right and",
+      "confidence": -0.21111582894610542
+    },
+    {
+      "start": "0:00:55",
+      "end": "0:00:57",
+      "text": "a weight a height and",
+      "confidence": -0.17733931768508185
+    },
+    {
+      "start": "0:00:58",
+      "end": "0:01:01",
+      "text": "Lastly, they have a first name and a last name",
+      "confidence": -0.17733931768508185
+    },
+    {
+      "start": "0:01:01",
+      "end": "0:01:07",
+      "text": "So now we've added attributes to our person class and we can now start using this class in other parts of our code",
+      "confidence": -0.17733931768508185
+    },
+    {
+      "start": "0:01:08",
+      "end": "0:01:11",
+      "text": "We can create what is called an instance of our person class",
+      "confidence": -0.17733931768508185
+    },
+    {
+      "start": "0:01:11",
+      "end": "0:01:16",
+      "text": "We can make a new person that will be our user let's say and here comes a really cool part",
+      "confidence": -0.17733931768508185
+    },
+    {
+      "start": "0:01:16",
+      "end": "0:01:21",
+      "text": "So now we're actually able to access the attributes of person and set them for our user",
+      "confidence": -0.17733931768508185
+    },
+    {
+      "start": "0:01:22",
+      "end": "0:01:25",
+      "text": "So for instance, what would the first name of our user person be?",
+      "confidence": -0.20385525144379715
+    },
+    {
+      "start": "0:01:25",
+      "end": "0:01:30",
+      "text": "Well, let's name them John. How old would John be? Well, I'm 25 so I'm just gonna go with 25",
+      "confidence": -0.20385525144379715
+    },
+    {
+      "start": "0:01:31",
+      "end": "0:01:38",
+      "text": "What were the weight of John be? I'm gonna go with 80 for now and this could of course represent like any metric you want",
+      "confidence": -0.20385525144379715
+    },
+    {
+      "start": "0:01:38",
+      "end": "0:01:43",
+      "text": "So you could represent grams pounds or kilos doesn't really matter",
+      "confidence": -0.20385525144379715
+    },
+    {
+      "start": "0:01:43",
+      "end": "0:01:49",
+      "text": "So now then when we use our user we will be able to access all the different attributes of our person class and",
+      "confidence": -0.20385525144379715
+    },
+    {
+      "start": "0:01:49",
+      "end": "0:01:53",
+      "text": "like first name last name age height weight, etc and",
+      "confidence": -0.18998827976463115
+    },
+    {
+      "start": "0:01:54",
+      "end": "0:01:57",
+      "text": "Whatever else we might add to the person class in the future",
+      "confidence": -0.18998827976463115
+    },
+    {
+      "start": "0:01:57",
+      "end": "0:02:03",
+      "text": "So for instance to test this we could try printing the user's catchphrase to the terminal and how we do that",
+      "confidence": -0.18998827976463115
+    },
+    {
+      "start": "0:02:03",
+      "end": "0:02:09",
+      "text": "It's just type in print and in parentheses user dot catchphrase and that will then print whatever",
+      "confidence": -0.18998827976463115
+    },
+    {
+      "start": "0:02:09",
+      "end": "0:02:12",
+      "text": "We have set the catchphrase for our user to be",
+      "confidence": -0.18998827976463115
+    },
+    {
+      "start": "0:02:12",
+      "end": "0:02:18",
+      "text": "we can also add methods in our class and access them the same way that we would with attributes and",
+      "confidence": -0.18998827976463115
+    },
+    {
+      "start": "0:02:18",
+      "end": "0:02:21",
+      "text": "The class might then end up looking something like this",
+      "confidence": -0.19162595839727492
+    },
+    {
+      "start": "0:02:21",
+      "end": "0:02:24",
+      "text": "So what we can do now is we can get our user to walk or run",
+      "confidence": -0.19162595839727492
+    },
+    {
+      "start": "0:02:25",
+      "end": "0:02:31",
+      "text": "So user dot walk would then print walking to the terminal you can create a class for anything that you can imagine",
+      "confidence": -0.19162595839727492
+    },
+    {
+      "start": "0:02:31",
+      "end": "0:02:36",
+      "text": "So for instance, let's say a bottle of water what attributes would it have?",
+      "confidence": -0.19162595839727492
+    },
+    {
+      "start": "0:02:36",
+      "end": "0:02:44",
+      "text": "Well, it would have volume like how much could it contain it would probably have what type of bottle it is is it wine soda milk?",
+      "confidence": -0.19162595839727492
+    },
+    {
+      "start": "0:02:45",
+      "end": "0:02:52",
+      "text": "Whatever and what methods would it have so what can you do with a bottle? Well, you can pour it you can fill it",
+      "confidence": -0.1724647560504952
+    },
+    {
+      "start": "0:02:52",
+      "end": "0:02:58",
+      "text": "You can probably recycle it creating classes is something that may take some time to get used to it",
+      "confidence": -0.1724647560504952
+    },
+    {
+      "start": "0:02:58",
+      "end": "0:03:05",
+      "text": "took me some time to get used to it and I would recommend just practicing by creating classes for things that you see and have around you and",
+      "confidence": -0.1724647560504952
+    },
+    {
+      "start": "0:03:05",
+      "end": "0:03:09",
+      "text": "This will teach you how to abstract real-world things and represent them in code",
+      "confidence": -0.1724647560504952
+    },
+    {
+      "start": "0:03:09",
+      "end": "0:03:13",
+      "text": "Which is pretty much what programming is all about and if you learn to do this",
+      "confidence": -0.14165536095114314
+    },
+    {
+      "start": "0:03:13",
+      "end": "0:03:17",
+      "text": "Well, then you pretty much won like half the battle when it comes to learning to code",
+      "confidence": -0.14165536095114314
+    },
+    {
+      "start": "0:03:17",
+      "end": "0:03:18",
+      "text": "Okay, I hope I did that well",
+      "confidence": -0.14165536095114314
+    },
+    {
+      "start": "0:03:18",
+      "end": "0:03:24",
+      "text": "I tried to be really fast and I hope I explained it well and that you got something out of this and",
+      "confidence": -0.14165536095114314
+    },
+    {
+      "start": "0:03:25",
+      "end": "0:03:27",
+      "text": "I hope I'll see you in the next one",
+      "confidence": -0.14165536095114314
+    }
+  ]
+}

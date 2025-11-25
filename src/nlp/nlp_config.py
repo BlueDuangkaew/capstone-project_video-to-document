@@ -19,6 +19,10 @@ class NLPConfig:
     ]
     
     CLASSIFICATION_RULES = {
+        # greetings and closing phrases are handled specially so they can be
+        # filtered out prior to building the final document
+        "greeting": ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "welcome"],
+        "farewell": ["thanks", "thank you", "goodbye", "bye", "see you", "see ya", "take care", "cheers"],
         "action": ["click", "open", "select", "go to", "press", "drag", 
                    "type", "enter", "choose", "navigate", "scroll"],
         "explanation": ["so", "basically", "this is", "what happens", "because",

@@ -1,4 +1,5 @@
 import os
+import json
 import shutil
 import tempfile
 import pytest
@@ -37,8 +38,6 @@ def test_run_pipeline_generates_gifs(tmp_path, monkeypatch):
     appmod.OUTPUT_DIR = out_root
     appmod.JOB_DIR = jobs
 
-    # Avoid doing heavy frame extraction (no-op)
-    monkeypatch.setattr(appmod, "extract_frames", lambda *a, **k: None)
 
     # Replace WhisperTranscriber with a dummy that returns a simple transcript
     class DummyTranscriber:
@@ -88,8 +87,14 @@ def test_run_pipeline_generates_gifs(tmp_path, monkeypatch):
     gifs = list(gifs_dir.glob("*.gif"))
     assert len(gifs) > 0, "At least one gif should have been created"
 
-    # documentation.html should reference the gif relative path
+    # documentation.html should reference the gif via the app download URL
     html_path = out_job_dir / "documentation.html"
     assert html_path.exists()
     content = html_path.read_text(encoding="utf-8")
-    assert "gifs/" in content
+    assert f"/download/{job_id}/gifs/" in content
+
+    # Ensure created_gifs appear in documentation.json
+    json_path = out_job_dir / "documentation.json"
+    assert json_path.exists()
+    data = json.loads(json_path.read_text(encoding="utf-8"))
+    assert "created_gifs" in data.get("metadata", {})

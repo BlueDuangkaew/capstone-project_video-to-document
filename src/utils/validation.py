@@ -27,6 +27,9 @@ def get_video_duration(path: str) -> float:
 
     Raises a RuntimeError if probing fails.
     """
+    if path is None:
+        raise FileNotFoundError("Input path is None")
+
     if not os.path.exists(path):
         raise FileNotFoundError(f"Input file not found: {path}")
     try:
@@ -43,6 +46,10 @@ def validate_video(path: str) -> Tuple[bool, List[str]]:
     validation messages. Use this at upload time to accept/reject files.
     """
     problems: List[str] = []
+
+    if path is None:
+        problems.append("file_not_found")
+        return False, problems
 
     if not os.path.exists(path):
         problems.append("file_not_found")

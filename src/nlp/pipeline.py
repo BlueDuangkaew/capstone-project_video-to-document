@@ -69,21 +69,29 @@ def process_transcript(
         # Step 2: Classify segments
         logger.info("Step 2/5: Classifying segments...")
         classified = classifier.classify_segments(cleaned, use_llm=use_llm)
+
+        # Filter out non-instructional content such as greetings, farewells and noise.
+        # We intentionally keep questions and other instructional labels.
+        exclude_labels = {"greeting", "farewell", "noise", "irrelevant"}
+        filtered = [s for s in classified if s.get("label") not in exclude_labels]
+
+        logger.info(f"Filtered {len(classified) - len(filtered)} non-instructional segments")
         
         # Step 3: Generate summary
         logger.info("Step 3/5: Generating summary...")
-        summary = summarizer.summarize_segments(classified, use_llm=use_llm)
+        # Use filtered, instructional-only segments for summary and step extraction
+        summary = summarizer.summarize_segments(filtered, use_llm=use_llm)
         
         # Step 4: Extract steps
         logger.info("Step 4/5: Extracting steps...")
-        steps = stepper.extract_steps(classified, use_llm=use_llm)
+        steps = stepper.extract_steps(filtered, use_llm=use_llm)
         
         # Step 5: Build document
         logger.info("Step 5/5: Building document structure...")
         document = structurer.build_document(
             transcript_json,
             cleaned,
-            classified,
+            filtered,
             steps,
             summary
         )

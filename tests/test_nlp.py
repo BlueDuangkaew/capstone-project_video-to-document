@@ -266,6 +266,11 @@ class TestSegmentClassifier:
         classifier = SegmentClassifier()
         result = classifier.classify("This is a regular statement.")
         assert result == "explanation"
+
+    def test_classify_greeting_and_farewell(self):
+        classifier = SegmentClassifier()
+        assert classifier.classify("Hello everyone") == "greeting"
+        assert classifier.classify("Thanks and goodbye") == "farewell"
     
     def test_classify_segments(self):
         classifier = SegmentClassifier()
@@ -524,6 +529,21 @@ class TestPipeline:
         
         doc = process_transcript(transcript)
         assert doc["metadata"]["processed_segments"] == 0
+
+    def test_pipeline_filters_greetings(self):
+        transcript = {
+            "segment_id": "filter_test",
+            "segments": [
+                {"start": "0:00:00", "end": "0:00:01", "text": "Hello everyone", "confidence": -0.1},
+                {"start": "0:00:01", "end": "0:00:03", "text": "Click the button", "confidence": -0.1},
+                {"start": "0:00:03", "end": "0:00:04", "text": "Thanks, goodbye", "confidence": -0.1}
+            ]
+        }
+
+        doc = process_transcript(transcript)
+        # Only the middle (instructional) segment should be counted as processed
+        assert doc["metadata"]["processed_segments"] == 1
+        assert len(doc["timeline"]) == 1
 
 
 # ============================================================================

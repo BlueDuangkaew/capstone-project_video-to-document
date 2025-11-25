@@ -58,10 +58,35 @@ class SegmentClassifier:
         # Check for noise based on confidence and length
         if confidence < NLPConfig.MIN_CONFIDENCE or len(text) < 3:
             return "noise"
+
+        # Check for greetings and farewells first so they can be filtered
+        # out of the document-building pipeline when desired. Use whole-word
+        # matching to avoid accidental substring matches (e.g. 'hi' in 'this').
+        greeting_keywords = self.rules.get("greeting", [])
+        farewell_keywords = self.rules.get("farewell", [])
+
+        def contains_keyword(keyword_list):
+            import re
+
+            for kw in keyword_list:
+                # Use word-boundary search so multi-word and single tokens match
+                pattern = r"\b" + re.escape(kw.lower()) + r"\b"
+                if re.search(pattern, text_lower):
+                    return True
+            return False
+
+        if contains_keyword(greeting_keywords):
+            return "greeting"
+        if contains_keyword(farewell_keywords):
+            return "farewell"
         
         # Rule-based classification
+        # Rule-based classification (use whole-word matching as above)
         for label, keywords in self.rules.items():
-            if any(keyword in text_lower for keyword in keywords):
+            # Skip greeting/farewell because we handled them above
+            if label in ("greeting", "farewell"):
+                continue
+            if contains_keyword(keywords):
                 return label
         
         # Check for questions

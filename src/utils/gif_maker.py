@@ -47,6 +47,9 @@ def make_gif_from_clip(
 
     Raises GifGenerationError on failure.
     """
+    if input_video is None:
+        raise FileNotFoundError("Input video path is None")
+
     if not os.path.exists(input_video):
         raise FileNotFoundError(f"Input video not found: {input_video}")
 

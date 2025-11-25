@@ -19,13 +19,29 @@ class WhisperTranscriber:
         # If caller doesn't provide a model name, fall back to the centralized
         # configuration (config.WHISPER_MODEL) so the app uses one canonical value.
         # Keep backwards compatibility when a caller explicitly passes model_name.
-        self.model_name = model_name or config.WHISPER_MODEL
-        self.model = whisper.load_model(model_name)
+        # Resolve a safe model name: prefer explicit argument, then config, finally 'small'
+        resolved_model = model_name if model_name else (config.WHISPER_MODEL or "small")
+        if resolved_model is None or resolved_model == "":
+            resolved_model = "small"
+        self.model_name = resolved_model
+
+        # Load the model safely (wrap to surface clearer errors if the name is invalid)
+        try:
+            self.model = whisper.load_model(self.model_name)
+        except TypeError as e:
+            # Whisper's loader may call os.path functions; raise a clearer exception
+            raise RuntimeError(f"Invalid whisper model name: {self.model_name}") from e
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def _extract_audio(self, video_path: str, out_audio_path: str) -> str:
         """Extract audio from video to WAV using ffmpeg (mono, 16kHz)."""
+        if video_path is None:
+            raise FileNotFoundError("video_path is None")
+
+        if not os.path.exists(video_path):
+            raise FileNotFoundError(f"Input video not found: {video_path}")
+
         (
             ffmpeg
             .input(video_path)
@@ -43,6 +59,12 @@ class WhisperTranscriber:
         word_timestamps: bool = False
     ) -> Dict[str, Any]:
         """Transcribe a single video segment and return structured JSON with timestamps."""
+        if segment_video_path is None:
+            raise FileNotFoundError("segment_video_path is None")
+
+        if not os.path.exists(segment_video_path):
+            raise FileNotFoundError(f"segment file not found: {segment_video_path}")
+
         if segment_id is None:
             segment_id = Path(segment_video_path).stem
 

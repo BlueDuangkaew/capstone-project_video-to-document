@@ -51,6 +51,9 @@ class VideoTrimmer:
             out = vt.trim("input.mp4", 5.0, 15.0)
         """
 
+        if input_path is None:
+            raise FileNotFoundError("Input path is None")
+
         if not os.path.exists(input_path):
             raise FileNotFoundError(f"Input file not found: {input_path}")
         if start_time < 0 or end_time <= start_time:
@@ -94,6 +97,9 @@ class VideoTrimmer:
         Returns:
             List of timestamps (in seconds) where scene changes occur
         """
+        if input_path is None:
+            raise FileNotFoundError("Input path is None")
+
         if not os.path.exists(input_path):
             raise FileNotFoundError(f"Input file not found: {input_path}")
         
@@ -175,6 +181,9 @@ class VideoTrimmer:
                         - If `max_segments` is provided, the list of segments will be
                             truncated to that many items.
         """
+        if input_path is None:
+            raise FileNotFoundError("Input path is None")
+
         if not os.path.exists(input_path):
             raise FileNotFoundError(f"Input file not found: {input_path}")
         

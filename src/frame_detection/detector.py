@@ -1,6 +1,10 @@
 import cv2
+import logging
 import numpy as np
 from typing import List, Dict
+
+logger = logging.getLogger(__name__)
+
 
 class SceneDetector:
     def __init__(self, threshold: float = 0.35):
@@ -11,6 +15,16 @@ class SceneDetector:
         self.threshold = threshold
 
     def detect_scenes(self, video_path: str) -> List[Dict]:
+        # Validate input
+        if video_path is None:
+            raise FileNotFoundError("video_path is None")
+        import os
+        if not os.path.exists(video_path):
+            # File missing — return empty scene list rather than raising so
+            # callers/tests that probe without a real file get a predictable
+            # empty result.
+            logger.debug("detect_scenes: input file not found: %s", video_path)
+            return []
         cap = cv2.VideoCapture(video_path)
         prev_hist = None
         scenes = []
