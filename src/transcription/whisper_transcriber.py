@@ -3,6 +3,7 @@ import json
 import tempfile
 import ffmpeg
 import whisper
+from config import config
 import datetime
 import copy
 from pathlib import Path
@@ -14,8 +15,11 @@ def format_ts(seconds: float) -> str:
     return str(datetime.timedelta(seconds=round(seconds)))
 
 class WhisperTranscriber:
-    def __init__(self, model_name: str = "small", output_dir: str = "data/transcripts"):
-        self.model_name = model_name
+    def __init__(self, model_name: str = None, output_dir: str = "data/transcripts"):
+        # If caller doesn't provide a model name, fall back to the centralized
+        # configuration (config.WHISPER_MODEL) so the app uses one canonical value.
+        # Keep backwards compatibility when a caller explicitly passes model_name.
+        self.model_name = model_name or config.WHISPER_MODEL
         self.model = whisper.load_model(model_name)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)

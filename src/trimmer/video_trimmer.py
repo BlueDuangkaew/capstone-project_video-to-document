@@ -1,3 +1,20 @@
+"""Video trimming utilities.
+
+This module provides the `VideoTrimmer` class which wraps FFmpeg
+operations to trim videos, detect scene changes, and automatically
+segment videos into shorter clips.
+
+Quick usage:
+
+    from src.trimmer.video_trimmer import VideoTrimmer
+    vt = VideoTrimmer(output_dir="data/segments")
+    segments = vt.auto_segment("input.mp4", threshold=0.4, min_length=1.0)
+
+Notes:
+- Requires `ffmpeg` (system binary) installed and available on PATH.
+- Also depends on the `ffmpeg-python` package (imported as `ffmpeg`).
+"""
+
 import ffmpeg
 import os
 import re
@@ -11,6 +28,29 @@ class VideoTrimmer:
         os.makedirs(self.output_dir, exist_ok=True)
     
     def trim(self, input_path: str, start_time: float, end_time: float) -> str:
+        """Trim a portion of the input video and write it to an MP4 file.
+
+        The method uses FFmpeg (via `ffmpeg-python`) to copy the requested
+        time range into a new file in the trimmer's `output_dir`.
+
+        Args:
+            input_path: Path to the source video file.
+            start_time: Start time in seconds (float >= 0).
+            end_time: End time in seconds (float > start_time).
+
+        Returns:
+            The full path to the created output segment file.
+
+        Raises:
+            FileNotFoundError: If `input_path` does not exist.
+            ValueError: If `start_time` or `end_time` are invalid.
+            RuntimeError: If FFmpeg fails to produce the output file.
+
+        Example:
+            vt = VideoTrimmer("data/segments")
+            out = vt.trim("input.mp4", 5.0, 15.0)
+        """
+
         if not os.path.exists(input_path):
             raise FileNotFoundError(f"Input file not found: {input_path}")
         if start_time < 0 or end_time <= start_time:
@@ -30,7 +70,13 @@ class VideoTrimmer:
         except ffmpeg.Error as e:
             if os.path.exists(output_file):
                 os.remove(output_file)
-            raise RuntimeError(f"FFmpeg error during trimming: {e.stderr.decode()}")
+            # Attempt to include FFmpeg stderr text when available
+            stderr_text = None
+            try:
+                stderr_text = e.stderr.decode()
+            except Exception:
+                stderr_text = str(e)
+            raise RuntimeError(f"FFmpeg error during trimming: {stderr_text}")
 
         return output_file
 
@@ -116,6 +162,18 @@ class VideoTrimmer:
         
         Returns:
             List of output segment file paths
+
+                Usage example:
+
+                        vt = VideoTrimmer(output_dir="data/segments")
+                        segments = vt.auto_segment("input.mp4", threshold=0.35, min_length=2.0)
+
+                Notes:
+                        - The method will call `detect_scene_changes` to obtain cut
+                            timestamps and will trim each segment with `trim`.
+                        - Segments shorter than `min_length` are skipped.
+                        - If `max_segments` is provided, the list of segments will be
+                            truncated to that many items.
         """
         if not os.path.exists(input_path):
             raise FileNotFoundError(f"Input file not found: {input_path}")

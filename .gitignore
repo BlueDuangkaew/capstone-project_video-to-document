@@ -1,8 +1,18 @@
 .env
 venv/
 test_segments/
-output/
-data/
+uploads/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# cached virtual env created locally
+venv/
+
+# local editor settings
+.vscode/
+.idea/
 
 *.mp4:Zone.Identifier
 tests/*.mp4

@@ -1,16 +1,83 @@
+"""Batch video trimming helpers.
+
+This module provides `BatchVideoTrimmer`, a small helper class that
+wraps `VideoTrimmer` to process all videos in an input directory
+and produce trimmed segments into an output directory.
+
+Usage
+-----
+Programmatic example:
+
+        from src.trimmer.batch_video_trimmer import BatchVideoTrimmer
+
+        # Create with optional paths (defaults shown)
+        bvt = BatchVideoTrimmer(input_dir="data/input_videos",
+                                                     output_dir="data/segments")
+
+        # Process all files in the input directory
+        results = bvt.process_all(threshold=0.4, min_length=1.0, verbose=True)
+
+        # Get a concise summary of the run
+        summary = bvt.get_summary(results)
+
+Per-file processing example:
+
+        segments = bvt.process_single("example.mp4", threshold=0.35)
+
+Notes
+-----
+- `input_dir` should contain video files in supported formats
+    (mp4, mov, mkv, avi, webm, flv). The method `get_video_files`
+    performs a case-insensitive suffix check.
+- `VideoTrimmer` (imported from `.video_trimmer`) performs the actual
+    segmentation/trimming. Ensure any dependencies used by `VideoTrimmer`
+    (for example `ffmpeg` or python packages) are installed. See
+    `requirements.txt` for Python deps.
+- `process_all` returns a dict with per-file status and segment lists.
+    On error the `error` field contains the exception message.
+
+Return format (per file):
+
+        {
+                "status": "success" | "error",
+                "segments": [...paths to segments...] | None,
+                "error": "error message" | None,
+                "segment_count": int
+        }
+
+"""
+
 import os
 from typing import Dict, List
 from .video_trimmer import VideoTrimmer
 
 
 class BatchVideoTrimmer:
+    """Batch-process videos in a directory using `VideoTrimmer`.
+
+    This class discovers video files in `input_dir` (by extension),
+    calls `VideoTrimmer.auto_segment` for each file, and aggregates
+    results. Methods provided:
+
+    - `get_video_files()` -> list of filenames found in `input_dir`.
+    - `process_all(...)` -> dict mapping filename -> result dict.
+    - `process_single(filename, ...)` -> list of produced segment paths.
+    - `get_summary(results)` -> aggregate statistics for a batch run.
+
+    Implementation notes:
+    - The trimmer instance is created with `output_dir` and is reused
+      for each file processed.
+    - `process_all` catches exceptions per-file and records the
+      exception message in the returned results; it does not raise
+      on the first error.
+    """
     def __init__(self, input_dir="data/input_videos", output_dir="data/segments"):
         self.input_dir = input_dir
         self.trimmer = VideoTrimmer(output_dir)
-        
+
         # Create input directory if it doesn't exist
         os.makedirs(self.input_dir, exist_ok=True)
-    
+
     def get_video_files(self) -> List[str]:
         """Get all video files from input directory."""
         supported_formats = (".mp4", ".mov", ".mkv", ".avi", ".webm", ".flv")
