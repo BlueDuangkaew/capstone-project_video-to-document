@@ -15,7 +15,3 @@
 ## Problems / Issues encountered
 - Limited time in final stretch required prioritizing critical fixes over lower-priority UX enhancements.
 - Large test artifacts (GIFs) create noise in repository if checked in; decided to keep only small example outputs under `output/` and keep artifacts out of version control where appropriate.
-
----
-
-If you'd like, I can now open a single PR that adds all these reports and links them to matching milestone/issue references — shall I do that?

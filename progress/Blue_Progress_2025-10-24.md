@@ -15,7 +15,3 @@
 ## Problems / Issues encountered
 - Profiling revealed clip detection can be CPU-heavy on large inputs; proposed sampling and rate limiting as mitigations.
 - Full end-to-end testing remains expensive; designed a test matrix that uses mocks for heavy steps and a separate smoke test for full runs.
-
----
-
-If you'd like, I can add a benchmark script and short README instructions for running the smoke tests locally (requires ffmpeg + gifski).

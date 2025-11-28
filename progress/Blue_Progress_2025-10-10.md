@@ -15,7 +15,3 @@
 ## Problems / Issues encountered
 - OCR and cv2 behaviors are environment-dependent — tests must mock `pytesseract` and `cv2` for reliability; documented sample mocks in tests.
 - GIF generation remains platform-dependent and relies on gifski being installed; CI requires special setup or skip logic for full GIF tests.
-
----
-
-Would you like me to open PRs for the new tests and add CI job steps to run mocked tests and selectively run GIF smoke tests?

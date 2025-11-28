@@ -16,7 +16,3 @@
 ## Problems / Issues encountered
 - Some tests interact with system ffmpeg and can be flaky on different CI images; we documented a test strategy (mock heavy binary calls) to keep CI reliable.
 - Whisper and GPU-dependent work remain heavy to test reliably; mocking is required for CI, with smoke tests kept optional.
-
----
-
-If you'd like, I can add commit references or link the specific tests I added in this period. Just tell me whether you prefer small PRs per report or a single consolidated PR.

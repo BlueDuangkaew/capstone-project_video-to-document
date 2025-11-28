@@ -15,7 +15,3 @@
 ## Problems / Issues encountered
 - Docker images that include heavy binaries are large; suggested alternative staging where smoke tests run in a dedicated job rather than the main CI flow.
 - Some platform differences (e.g., ffmpeg behavior) still cause occasional discrepancies in test durations; documented a tolerance strategy in tests.
-
----
-
-Let me know if you'd like these smoke tests enabled in CI or run only manually during release builds.
